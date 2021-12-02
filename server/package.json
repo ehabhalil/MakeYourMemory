@@ -1,0 +1,21 @@
+{
+  "name": "make-your-memmory-backend",
+  "version": "1.0.0",
+  "description": "CRUD with Mongoose",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "author": "ehab halil-mahmoud alkasem",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "bcrypt": "^5.0.1",
+    "express": "^4.17.1",
+    "mongodb": "^4.1.2",
+    "mongoose": "^6.0.7"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
+}
