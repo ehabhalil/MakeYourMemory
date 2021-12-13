@@ -1,7 +1,6 @@
-package com.example.mym;
+package com.example.mym.post;
 
 import android.content.Context;
-import android.view.ContentInfo;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mym.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -27,7 +27,7 @@ public class RCAdapter extends RecyclerView.Adapter<RCAdapter.ViewHolder> {
 
     @NonNull
     @Override
-        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.card,parent,false);
         return new ViewHolder(view);
     }
@@ -51,17 +51,19 @@ public class RCAdapter extends RecyclerView.Adapter<RCAdapter.ViewHolder> {
         Button comment;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            ImageView avatar = itemView.findViewById(R.id.avatar);
-            ImageView image = itemView.findViewById(R.id.image);
-            TextView description = itemView.findViewById(R.id.description);
-            TextView userName = itemView.findViewById(R.id.userName);
-            Button like = itemView.findViewById(R.id.like);
-            Button comment = itemView.findViewById(R.id.comment);
+            avatar = itemView.findViewById(R.id.avatar);
+            image = itemView.findViewById(R.id.image);
+            description = itemView.findViewById(R.id.description);
+            userName = itemView.findViewById(R.id.userName);
+            like = itemView.findViewById(R.id.like);
+            comment = itemView.findViewById(R.id.comment);
         }
 
         public void bind(Post post) {
-            //description.setText(post.getDescription());
-            //Picasso.with(context).load().into;
+            Picasso.get().load(post.getImagURL()).into(avatar);
+            Picasso.get().load(post.getImagURL()).into(image);
+            description.setText(post.getText());
+            userName.setText(post.getText());
         }
     }
 }

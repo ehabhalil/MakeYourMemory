@@ -1,59 +1,29 @@
 package com.example.mym;
 
+import android.content.Intent;
 import android.os.Bundle;
 
-import com.google.android.material.snackbar.Snackbar;
+import com.example.mym.authentication.SignUpActivity;
+import com.example.mym.user.DashBoardActivity;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.util.Log;
 import android.view.View;
 
-import androidx.loader.app.LoaderManager;
-import androidx.loader.content.Loader;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.mym.databinding.ActivityMainBinding;
-
-import java.util.ArrayList;
-import java.util.List;
-
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<User> {
-    RecyclerView recyclerView;
-    RCAdapter adapter;
+public class MainActivity extends AppCompatActivity  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new RCAdapter(this,new ArrayList<Post>());
-        recyclerView.setAdapter(adapter);
-        getSupportLoaderManager().initLoader(0,null,this).forceLoad();
+
+    }
+    public void authenticateLogin(View view) {
+        Intent dashBoardActivity = new Intent(this, DashBoardActivity.class);
+        startActivity(dashBoardActivity);
     }
 
-    @NonNull
-    @Override
-    public Loader<User> onCreateLoader(int id, @Nullable Bundle args) {
-        return new UserTaskLoader(MainActivity.this);
-    }
-
-    @Override
-    public void onLoadFinished(@NonNull Loader<User> loader, User data) {
-        Log.d("root",data.getUserName());
-        adapter = new RCAdapter(this,  data);
-        recyclerView.setAdapter(adapter);
-    }
-
-    @Override
-    public void onLoaderReset(@NonNull Loader<User> loader) {
-
+    public void authenticateSignUp(View view) {
+        Intent signUpActivity = new Intent(this, SignUpActivity.class);
+        startActivity(signUpActivity);
     }
 }

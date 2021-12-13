@@ -1,4 +1,4 @@
-package com.example.mym;
+package com.example.mym.user;
 
 import java.util.ArrayList;
 

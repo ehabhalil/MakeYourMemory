@@ -1,10 +1,10 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const postController = require("../controllers/post");
+const postController = require('../controllers/post');
 
 // TODO: add all routes
-router.get("/:id", postController.getAllPosts);
-router.post("/:id", postController.addNewPost);
+router.get('/', postController.getAllPosts);
+router.post('/:id', postController.addNewPost);
 ////////////
 
 module.exports = router;
