@@ -1,4 +1,4 @@
-package com.example.mym.post;
+package com.example.mym.model.post;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -16,11 +16,11 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class RCAdapter extends RecyclerView.Adapter<RCAdapter.ViewHolder> {
+public class PostRCAdapter extends RecyclerView.Adapter<PostRCAdapter.ViewHolder> {
     Context context;
     List<Post> postsList;
 
-    public RCAdapter(Context context, List<Post> postsList) {
+    public PostRCAdapter(Context context, List<Post> postsList) {
         this.context = context;
         this.postsList = postsList;
     }
@@ -60,8 +60,9 @@ public class RCAdapter extends RecyclerView.Adapter<RCAdapter.ViewHolder> {
         }
 
         public void bind(Post post) {
-            Picasso.get().load(post.getImagURL()).into(avatar);
-            Picasso.get().load(post.getImagURL()).into(image);
+            // TODO: 12/14/2021 set comment class
+            Picasso.get().load(post.getImageURL()).into(avatar);
+            Picasso.get().load(post.getImageURL()).into(image);
             description.setText(post.getText());
             userName.setText(post.getText());
         }

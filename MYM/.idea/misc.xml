@@ -3,18 +3,29 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/EHAB-/OneDrive/Documents/MakeYourMemory/MYM/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2703125" />
+        <entry key="..\:/Users/EHAB-/OneDrive/Documents/MakeYourMemory/MYM/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2703125" />
+        <entry key="..\:/Users/EHAB-/OneDrive/Documents/MakeYourMemory/MYM/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/EHAB-/OneDrive/Documents/MakeYourMemory/MYM/app/src/main/res/layout/activity_sign_up.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/EHAB-/OneDrive/Documents/MakeYourMemory/MYM/app/src/main/res/layout/card.xml" value="0.25" />
+        <entry key="..\:/Users/EHAB-/OneDrive/Documents/MakeYourMemory/MYM/app/src/main/res/layout/content_main.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/EHAB-/OneDrive/Documents/MakeYourMemory/MYM/app/src/main/res/layout/dash_board.xml" value="0.25263157894736843" />
+        <entry key="..\:/Users/EHAB-/OneDrive/Documents/MakeYourMemory/MYM/app/src/main/res/layout/fragment_blank.xml" value="0.225" />
+        <entry key="..\:/Users/EHAB-/OneDrive/Documents/MakeYourMemory/MYM/app/src/main/res/layout/fragment_blank2.xml" value="0.1875" />
+        <entry key="..\:/Users/EHAB-/OneDrive/Documents/MakeYourMemory/MYM/app/src/main/res/layout/fragment_dash_board.xml" value="0.225" />
+        <entry key="..\:/Users/EHAB-/OneDrive/Documents/MakeYourMemory/MYM/app/src/main/res/layout/fragment_first.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/EHAB-/OneDrive/Documents/MakeYourMemory/MYM/app/src/main/res/layout/fragment_friends.xml" value="0.13020833333333334" />
+        <entry key="..\:/Users/EHAB-/OneDrive/Documents/MakeYourMemory/MYM/app/src/main/res/layout/fragment_main.xml" value="0.264" />
+        <entry key="..\:/Users/EHAB-/OneDrive/Documents/MakeYourMemory/MYM/app/src/main/res/layout/fragment_second.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/EHAB-/OneDrive/Documents/MakeYourMemory/MYM/app/src/main/res/layout/login.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/EHAB-/OneDrive/Documents/MakeYourMemory/MYM/app/src/main/res/layout/start.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/EHAB-/OneDrive/Documents/MakeYourMemory/MYM/app/src/main/res/menu/dash_board_menu.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/mahmo/Desktop/MYM/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/Users/mahmo/Desktop/MYM/app/src/main/res/layout/card.xml" value="0.264" />
         <entry key="..\:/Users/mahmo/Desktop/MYM/app/src/main/res/layout/content_main.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/mahmo/Desktop/MYM/app/src/main/res/layout/fragment_first.xml" value="0.1828125" />
         <entry key="..\:/Users/mahmo/Desktop/MYM/app/src/main/res/layout/fragment_second.xml" value="0.1828125" />
         <entry key="..\:/Users/mahmo/Desktop/MYM/app/src/main/res/layout/login.xml" value="0.1828125" />
-        <entry key="..\:/Users/mahmo/Desktop/MakeYourMemory/MYM/app/src/main/res/layout/activity_main.xml" value="0.152" />
-        <entry key="..\:/Users/mahmo/Desktop/MakeYourMemory/MYM/app/src/main/res/layout/card.xml" value="0.176" />
-        <entry key="..\:/Users/mahmo/Desktop/MakeYourMemory/MYM/app/src/main/res/layout/content_main.xml" value="0.12360688956433637" />
-        <entry key="..\:/Users/mahmo/Desktop/MakeYourMemory/MYM/app/src/main/res/layout/fragment_first.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/mahmo/Desktop/MakeYourMemory/MYM/app/src/main/res/layout/fragment_second.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/mahmo/Desktop/MakeYourMemory/MYM/app/src/main/res/layout/login.xml" value="0.4" />
       </map>
     </option>
   </component>
@@ -23,12 +34,5 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
-  </component>
-  <component name="VisualizationToolProject">
-    <option name="state">
-      <ProjectState>
-        <option name="scale" value="0.264" />
-      </ProjectState>
-    </option>
   </component>
 </project>

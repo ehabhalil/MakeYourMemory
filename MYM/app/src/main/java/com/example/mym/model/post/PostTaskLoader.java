@@ -1,11 +1,11 @@
-package com.example.mym.post;
+package com.example.mym.model.post;
 
 import android.content.Context;
 import android.util.Log;
 
 import androidx.loader.content.AsyncTaskLoader;
 
-import com.example.mym.Constants;
+import com.example.mym.server.Constants;
 
 import org.json.JSONArray;
 import org.json.JSONException;

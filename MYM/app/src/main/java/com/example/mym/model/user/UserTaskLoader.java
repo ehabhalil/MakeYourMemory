@@ -1,10 +1,10 @@
-package com.example.mym.user;
+package com.example.mym.model.user;
 
 import android.content.Context;
 
 import androidx.loader.content.AsyncTaskLoader;
 
-import com.example.mym.Constants;
+import com.example.mym.server.Constants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,15 +16,16 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
-public class UserTaskLoader extends AsyncTaskLoader<User> {
+public class UserTaskLoader extends AsyncTaskLoader<List<User>> {
     public UserTaskLoader( Context context) {
         super(context);
     }
 
     @Override
-    public User loadInBackground() {
-        User user = null;
+    public List<User> loadInBackground() {
+        List<User> users = null;
         try {
             URL url = new URL(Constants.SERVER_URL);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -40,14 +41,13 @@ public class UserTaskLoader extends AsyncTaskLoader<User> {
             while((line = bufferedReader.readLine()) != null){
                 builder.append(line);
             }
+            // TODO: 12/14/2021  get users info from the server
             JSONObject JSONuser = new JSONObject(builder.toString());
-            user = new User(JSONuser.getString("userName"),null,null,null,null,null,null);
-            //Log.d("her",user.getUserName());
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
 
-        return user;
+        return users;
     }
 
 }
