@@ -1,14 +1,17 @@
-package com.example.mym.model.post;
+package com.example.mym.session.friends_tab;
 
 import android.content.Context;
 import android.util.Log;
 
 import androidx.loader.content.AsyncTaskLoader;
 
+import com.example.mym.model.post.Post;
+import com.example.mym.model.user.User;
 import com.example.mym.server.Constants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,16 +23,16 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PostTaskLoader extends AsyncTaskLoader<List<Post>> {
-    public PostTaskLoader( Context context) {
+public class UserTaskLoader extends AsyncTaskLoader<List<User>> {
+    public UserTaskLoader( Context context) {
         super(context);
     }
 
     @Override
-    public List<Post> loadInBackground() {
-        List<Post> postList = new ArrayList<Post>();
+    public List<User> loadInBackground() {
+        List<User> usersList = new ArrayList<User>();
         try {
-            URL url = new URL(Constants.SERVER_URL);
+            URL url = new URL(Constants.GET_ALL_USERS);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.connect();
@@ -43,21 +46,28 @@ public class PostTaskLoader extends AsyncTaskLoader<List<Post>> {
             while((line = bufferedReader.readLine()) != null){
                 builder.append(line);
             }
-            JSONArray posts = new JSONArray(builder.toString());
-            System.out.println(posts);
-            for (int i = 0; i < posts.length(); i++) {
+            // TODO: 12/14/2021  get users info from the server
+            JSONArray users = new JSONArray(builder.toString());
+            System.out.println(users);
+
+            for (int i = 0; i < users.length(); i++) {
 
 
-                Post p = new Post(posts.getJSONObject(i).getString("text"),posts.getJSONObject(i).getString("imageURL"));
-                Log.d("TAG", p.toString());
-                postList.add(p);
+                User p = new User(users.getJSONObject(i).getString("userName"),
+                        users.getJSONObject(i).getString("firstName"),
+                        users.getJSONObject(i).getString("lastName"),
+                        users.getJSONObject(i).getString("password_hash"),
+                        users.getJSONObject(i).getString("userName"),
+                        users.getJSONObject(i).getString("avatar"),null
+                        //users.getJSONObject(i).getJSONArray("friends")
+                        );
+                usersList.add(p);
             }
-            Log.d("TAG", postList.toString());
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
 
-        return postList;
+        return usersList;
     }
 
 }

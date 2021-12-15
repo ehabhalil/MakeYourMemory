@@ -1,13 +1,15 @@
-package com.example.mym.model.user;
+package com.example.mym.session.home_tab;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.loader.content.AsyncTaskLoader;
 
+import com.example.mym.model.post.Post;
 import com.example.mym.server.Constants;
 
+import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,16 +18,17 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 
-public class UserTaskLoader extends AsyncTaskLoader<List<User>> {
-    public UserTaskLoader( Context context) {
+public class PostTaskLoader extends AsyncTaskLoader<List<Post>> {
+    public PostTaskLoader( Context context) {
         super(context);
     }
 
     @Override
-    public List<User> loadInBackground() {
-        List<User> users = null;
+    public List<Post> loadInBackground() {
+        List<Post> postsList = new ArrayList<Post>();
         try {
             URL url = new URL(Constants.SERVER_URL);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -41,13 +44,17 @@ public class UserTaskLoader extends AsyncTaskLoader<List<User>> {
             while((line = bufferedReader.readLine()) != null){
                 builder.append(line);
             }
-            // TODO: 12/14/2021  get users info from the server
-            JSONObject JSONuser = new JSONObject(builder.toString());
+            JSONArray posts = new JSONArray(builder.toString());
+            System.out.println(posts);
+            for (int i = 0; i < posts.length(); i++) {
+                Post p = new Post(posts.getJSONObject(i).getString("text"),posts.getJSONObject(i).getString("imageURL"));
+                postsList.add(p);
+            }
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
 
-        return users;
+        return postsList;
     }
 
 }

@@ -1,4 +1,4 @@
-package com.example.mym.session;
+package com.example.mym.session.friends_tab;
 
 import android.os.Bundle;
 
@@ -16,8 +16,6 @@ import android.view.ViewGroup;
 
 import com.example.mym.R;
 import com.example.mym.model.user.User;
-import com.example.mym.model.user.UserRCAdapter;
-import com.example.mym.model.user.UserTaskLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,17 +23,17 @@ import java.util.List;
 public class FriendsFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<User>>{
     RecyclerView friends;
     UserRCAdapter adapter;
-
+    View view;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_main, container, false);
-        friends = view.findViewById(R.id.dashBoard);
+        view =  inflater.inflate(R.layout.fragment_friends, container, false);
+        friends = view.findViewById(R.id.friendsRecycleView);
         friends.setLayoutManager(new LinearLayoutManager(this.getContext()));
         adapter = new UserRCAdapter(this.getContext(),new ArrayList<User>());
         friends.setAdapter(adapter);
-        this.getActivity().getSupportLoaderManager().initLoader(0,null,this).forceLoad();
+        this.getActivity().getSupportLoaderManager().initLoader(1,null,this).forceLoad();
         return view;
     }
     @Override

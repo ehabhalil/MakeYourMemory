@@ -1,4 +1,4 @@
-package com.example.mym.session;
+package com.example.mym.session.home_tab;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,8 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mym.R;
 import com.example.mym.model.post.Post;
-import com.example.mym.model.post.PostTaskLoader;
-import com.example.mym.model.post.PostRCAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,12 +22,12 @@ import java.util.List;
 public class DashBoardFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<Post>>{
     RecyclerView dashBoard;
     PostRCAdapter adapter;
-
+    View view;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_main, container, false);
+        view =  inflater.inflate(R.layout.fragment_main, container, false);
         dashBoard = view.findViewById(R.id.dashBoard);
         dashBoard.setLayoutManager(new LinearLayoutManager(this.getContext()));
         adapter = new PostRCAdapter(this.getContext(),new ArrayList<Post>());

@@ -9,9 +9,9 @@ public class User {
     private String password_hash;
     private String registered_at;
     private String avatar;
-    private ArrayList<User> friends;
+    private ArrayList<String> friends;
 
-    public User(String userName, String firstName, String lastName, String password_hash, String registered_at, String avatar, ArrayList<User> friends) {
+    public User(String userName, String firstName, String lastName, String password_hash, String registered_at, String avatar, ArrayList<String> friends) {
         this.userName = userName;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -69,11 +69,11 @@ public class User {
         this.avatar = avatar;
     }
 
-    public ArrayList<User> getFriends() {
+    public ArrayList<String> getFriends() {
         return friends;
     }
 
-    public void setFriends(ArrayList<User> friends) {
+    public void setFriends(ArrayList<String> friends) {
         this.friends = friends;
     }
 }

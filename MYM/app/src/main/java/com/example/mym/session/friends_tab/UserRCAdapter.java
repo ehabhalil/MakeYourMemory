@@ -1,14 +1,19 @@
-package com.example.mym.model.user;
+package com.example.mym.session.friends_tab;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mym.R;
+import com.example.mym.model.user.User;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -24,7 +29,7 @@ public class UserRCAdapter extends RecyclerView.Adapter<UserRCAdapter.ViewHolder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.card,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.user_card,parent,false);
         return new ViewHolder(view);
     }
 
@@ -39,33 +44,19 @@ public class UserRCAdapter extends RecyclerView.Adapter<UserRCAdapter.ViewHolder
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        /*
-        ImageView avatar;
-        ImageView image;
-        TextView description;
-        TextView userName;
-        Button like;
-        Button comment;
-        */
+        ImageView userCardAvatar;
+        TextView userCardUserName;
+        Button relation;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            /*
-            avatar = itemView.findViewById(R.id.avatar);
-            image = itemView.findViewById(R.id.image);
-            description = itemView.findViewById(R.id.description);
-            userName = itemView.findViewById(R.id.userName);
-            like = itemView.findViewById(R.id.like);
-            comment = itemView.findViewById(R.id.comment);
-            */
+            userCardAvatar = itemView.findViewById(R.id.userCardAvatar);
+            userCardUserName = itemView.findViewById(R.id.userCardUserName);
         }
 
         public void bind(User user) {
-            /*
-            Picasso.get().load(post.getImageURL()).into(avatar);
-            Picasso.get().load(post.getImageURL()).into(image);
-            description.setText(post.getText());
-            userName.setText(post.getText());
-            */
+            Picasso.get().load(user.getAvatar()).into(userCardAvatar);
+            userCardUserName.setText(user.getFirstName()+" "+user.getLastName());
         }
     }
 }

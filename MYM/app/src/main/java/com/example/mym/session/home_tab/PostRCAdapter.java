@@ -1,4 +1,4 @@
-package com.example.mym.model.post;
+package com.example.mym.session.home_tab;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mym.R;
+import com.example.mym.model.post.Post;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -28,7 +29,7 @@ public class PostRCAdapter extends RecyclerView.Adapter<PostRCAdapter.ViewHolder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.card,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.post_card,parent,false);
         return new ViewHolder(view);
     }
 
