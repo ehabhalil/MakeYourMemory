@@ -16,11 +16,16 @@ import android.view.ViewGroup;
 
 import com.example.mym.R;
 import com.example.mym.model.user.User;
+import com.example.mym.server.Constants;
+import com.example.mym.server.Server;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FriendsFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<User>>{
+public class FriendsFragment extends Fragment implements LoaderManager.LoaderCallbacks<String>{
     RecyclerView friends;
     UserRCAdapter adapter;
     View view;
@@ -43,18 +48,39 @@ public class FriendsFragment extends Fragment implements LoaderManager.LoaderCal
     }
     @NonNull
     @Override
-    public Loader<List<User>> onCreateLoader(int id, @Nullable Bundle args) {
-        return new UserTaskLoader(this.getContext());
+    public Loader<String> onCreateLoader(int id, @Nullable Bundle args) {
+        return new Server(this.getContext(), Constants.GET_ALL_USERS, "GET",null);
     }
 
     @Override
-    public void onLoadFinished(@NonNull Loader<List<User>> loader, List<User> data) {
-        adapter = new UserRCAdapter(this.getContext(),  data);
+    public void onLoadFinished(@NonNull Loader<String> loader, String data) {
+        List<User> usersList = new ArrayList<User>();
+        JSONArray users = null;
+        try {
+            users = new JSONArray(data);
+            for (int i = 0; i < users.length(); i++) {
+
+                User p = new User(
+                        users.getJSONObject(i).getString("_id"),
+                        users.getJSONObject(i).getString("userName"),
+                        users.getJSONObject(i).getString("firstName"),
+                        users.getJSONObject(i).getString("lastName"),
+                        users.getJSONObject(i).getString("password_hash"),
+                        users.getJSONObject(i).getString("userName"),
+                        users.getJSONObject(i).getString("avatar"),null
+                        //users.getJSONObject(i).getJSONArray("friends")
+                );
+                usersList.add(p);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        adapter = new UserRCAdapter(this.getContext(),  usersList);
         friends.setAdapter(adapter);
     }
 
     @Override
-    public void onLoaderReset(@NonNull Loader<List<User>> loader) {
+    public void onLoaderReset(@NonNull Loader<String> loader) {
 
     }
 }

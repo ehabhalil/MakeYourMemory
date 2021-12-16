@@ -3,15 +3,17 @@ package com.example.mym.model.user;
 import java.util.ArrayList;
 
 public class User {
+    private String UserId;
     private String userName;
     private String firstName;
     private String lastName;
     private String password_hash;
     private String registered_at;
     private String avatar;
-    private ArrayList<String> friends;
+    private ArrayList<User> friends;
 
-    public User(String userName, String firstName, String lastName, String password_hash, String registered_at, String avatar, ArrayList<String> friends) {
+    public User(String userId, String userName, String firstName, String lastName, String password_hash, String registered_at, String avatar, ArrayList<User> friends) {
+        this.UserId = userId;
         this.userName = userName;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -69,11 +71,19 @@ public class User {
         this.avatar = avatar;
     }
 
-    public ArrayList<String> getFriends() {
+    public ArrayList<User> getFriends() {
         return friends;
     }
 
-    public void setFriends(ArrayList<String> friends) {
+    public void setFriends(ArrayList<User> friends) {
         this.friends = friends;
+    }
+
+    public String getUserId() {
+        return UserId;
+    }
+
+    public void setUserId(String userId) {
+        UserId = userId;
     }
 }

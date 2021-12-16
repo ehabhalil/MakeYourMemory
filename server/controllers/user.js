@@ -4,7 +4,8 @@ const bcrypt = require('bcrypt');
 //--------------------/
 const getAllFriends = async (req, res) => {
   try {
-    const user = await User.find({}).populate("friends");
+    console.log('asdasdasdczxczxc');
+    const user = await User.find({}).populate('friends');
     if (!user) return res.status(404).json({ messege: 'user not found' });
     else return res.json(user);
   } catch (error) {

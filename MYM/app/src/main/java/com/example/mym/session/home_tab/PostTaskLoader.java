@@ -25,13 +25,13 @@ public class PostTaskLoader extends AsyncTaskLoader<List<Post>> {
     public PostTaskLoader( Context context) {
         super(context);
     }
-
+    HttpURLConnection connection;
     @Override
     public List<Post> loadInBackground() {
         List<Post> postsList = new ArrayList<Post>();
         try {
             URL url = new URL(Constants.SERVER_URL);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.connect();
 
@@ -52,6 +52,9 @@ public class PostTaskLoader extends AsyncTaskLoader<List<Post>> {
             }
         } catch (IOException | JSONException e) {
             e.printStackTrace();
+        }
+        finally {
+            connection.disconnect();
         }
 
         return postsList;

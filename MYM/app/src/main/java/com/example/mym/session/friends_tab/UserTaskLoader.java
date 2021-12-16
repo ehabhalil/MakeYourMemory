@@ -1,17 +1,14 @@
 package com.example.mym.session.friends_tab;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.loader.content.AsyncTaskLoader;
 
-import com.example.mym.model.post.Post;
 import com.example.mym.model.user.User;
 import com.example.mym.server.Constants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,13 +24,13 @@ public class UserTaskLoader extends AsyncTaskLoader<List<User>> {
     public UserTaskLoader( Context context) {
         super(context);
     }
-
+    HttpURLConnection connection;
     @Override
     public List<User> loadInBackground() {
         List<User> usersList = new ArrayList<User>();
         try {
             URL url = new URL(Constants.GET_ALL_USERS);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.connect();
 
@@ -53,7 +50,9 @@ public class UserTaskLoader extends AsyncTaskLoader<List<User>> {
             for (int i = 0; i < users.length(); i++) {
 
 
-                User p = new User(users.getJSONObject(i).getString("userName"),
+                User p = new User(
+                        users.getJSONObject(i).getString("_id"),
+                        users.getJSONObject(i).getString("userName"),
                         users.getJSONObject(i).getString("firstName"),
                         users.getJSONObject(i).getString("lastName"),
                         users.getJSONObject(i).getString("password_hash"),
@@ -65,6 +64,8 @@ public class UserTaskLoader extends AsyncTaskLoader<List<User>> {
             }
         } catch (IOException | JSONException e) {
             e.printStackTrace();
+        }finally {
+            connection.disconnect();
         }
 
         return usersList;

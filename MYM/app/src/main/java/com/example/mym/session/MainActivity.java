@@ -28,8 +28,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // TODO: 12/14/2021 set user info from the bundle
 
+        Bundle bundle = getIntent().getExtras();
+        // TODO: 12/14/2021 set user info from the bundle
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
