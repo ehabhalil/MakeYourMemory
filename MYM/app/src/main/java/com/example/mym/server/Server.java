@@ -118,7 +118,4 @@ public class Server extends AsyncTaskLoader<String> {
         return statusCode;
     }
 
-    public void setStatusCode(int statusCode) {
-        this.statusCode = statusCode;
-    }
 }

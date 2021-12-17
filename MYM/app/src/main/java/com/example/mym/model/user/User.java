@@ -1,8 +1,9 @@
 package com.example.mym.model.user;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class User {
+public class User implements Serializable {
     private String UserId;
     private String userName;
     private String firstName;

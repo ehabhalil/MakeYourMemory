@@ -1,12 +1,24 @@
 package com.example.mym.session;
 
+import android.app.Dialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.ImageButton;
+import android.widget.PopupWindow;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.mym.R;
+import com.example.mym.authentication.LoginActivity;
+import com.example.mym.authentication.SignUpActivity;
 import com.example.mym.databinding.ActivityMainBinding;
 import com.example.mym.model.user.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -28,9 +40,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        user = (User) getIntent().getSerializableExtra("user");
 
-        Bundle bundle = getIntent().getExtras();
-        // TODO: 12/14/2021 set user info from the bundle
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -39,8 +50,8 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = binding.tabs;
         tabs.setupWithViewPager(viewPager);
-        FloatingActionButton fab = binding.fab;
-
+        FloatingActionButton addNewPost = binding.addNewPost;
+        ImageButton logout = binding.logout;
         SwipeRefreshLayout swipeRefreshLayout = binding.swipeRefreshLayout;
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -51,11 +62,20 @@ public class MainActivity extends AppCompatActivity {
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
-        fab.setOnClickListener(new View.OnClickListener() {
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent loginActivity = new Intent(MainActivity.this, LoginActivity.class);
+                loginActivity.putExtra("logout","logout");
+                MainActivity.this.startActivity(loginActivity);
+                MainActivity.this.finish();
+            }
+        });
+        addNewPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent addNewPost = new Intent(MainActivity.this,CreateNewPost.class);
+                MainActivity.this.startActivity(addNewPost);
             }
         });
 

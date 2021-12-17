@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "334068326081",
+    "project_id": "makeyourmemory-c56d2",
+    "storage_bucket": "makeyourmemory-c56d2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:334068326081:android:3955f8c004facd3db47e40",
+        "android_client_info": {
+          "package_name": "com.example.mym"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "334068326081-la4ur3fabu457q7ddcp3jja7hdlt2262.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC05vhq7Hovn_Hde6QJqmfXfVXnYaJ9nOM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "334068326081-la4ur3fabu457q7ddcp3jja7hdlt2262.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
