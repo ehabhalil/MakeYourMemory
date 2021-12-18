@@ -20,31 +20,37 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-            <ImageButton
+
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/bUserAvatar"
-                android:layout_width="50dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:minHeight="?actionBarSize"
-                app:srcCompat="@drawable/logo" />
+                android:src="@color/purple_500"
+                app:civ_border_width="2dp"
+                android:layout_margin="1dp"
+                app:civ_border_color="#FF000000"/>
+
             <TextView
                 android:id="@+id/bUserName"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="start"
                 android:minHeight="?actionBarSize"
-                android:layout_weight="2"
+                android:layout_weight="0.2"
                 android:padding="@dimen/appbar_padding"
                 android:text="@string/app_name"
                 android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title" />
 
+
+
             <ImageButton
                 android:id="@+id/logout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.4"
                 android:minHeight="?actionBarSize"
                 app:srcCompat="@android:drawable/ic_lock_power_off"
+                android:background="@color/purple_500"
                 />
         </LinearLayout>
 
@@ -73,7 +79,7 @@
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginBottom="16dp"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        app:srcCompat="@android:drawable/ic_input_add" />
 
 
 

@@ -15,11 +15,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
 
 import com.example.mym.R;
+import com.example.mym.model.user.User;
+import com.example.mym.server.Constants;
+import com.example.mym.server.Server;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,16 +41,15 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-public class CreateNewPost extends AppCompatActivity {
+public class CreateNewPost extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String>{
 
     private static final int PICK_IMAGE_REQUEST = 1;
 
-    private Button mButtonChooseImage;
-    private Button mButtonUpload;
-    private TextView mTextViewShowUploads;
-    private EditText mEditTextFileName;
+    private Button mButtonPost;
+    private EditText mEditTextDescreption;
     private ImageView mImageView;
     private ProgressBar mProgressBar;
 
@@ -54,49 +60,49 @@ public class CreateNewPost extends AppCompatActivity {
 
     private StorageTask mUploadTask;
 
-    private FirebaseStorage mStorage;
-    private ValueEventListener mDBListener;
-    private List<Upload> mUploads = new ArrayList<Upload>();
+    private String imageUrl;
+    private String description;
+    private User user;
+    private int loaderID = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_new_post);
 
-        mButtonChooseImage = findViewById(R.id.button_choose_image);
-        mButtonUpload = findViewById(R.id.button_upload);
-        mTextViewShowUploads = findViewById(R.id.text_view_show_uploads);
-        mEditTextFileName = findViewById(R.id.edit_text_file_name);
+        mButtonPost = findViewById(R.id.post);
+        mEditTextDescreption = findViewById(R.id.edit_text_file_name);
         mImageView = findViewById(R.id.image_view);
         mProgressBar = findViewById(R.id.progress_bar);
 
         mStorageRef = FirebaseStorage.getInstance().getReference("uploads");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
 
-        mButtonChooseImage.setOnClickListener(new View.OnClickListener() {
+        Picasso.get().load(mImageUri).placeholder(R.mipmap.ic_launcher).into(mImageView);
+        user = (User) getIntent().getSerializableExtra("user");
+
+        mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openFileChooser();
             }
         });
 
-        mButtonUpload.setOnClickListener(new View.OnClickListener() {
+        mButtonPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mUploadTask != null && mUploadTask.isInProgress()) {
                     Toast.makeText(CreateNewPost.this, "Upload in progress", Toast.LENGTH_SHORT).show();
                 } else {
-                    uploadFile();
+                    try {
+                        uploadFile();
+                    }catch (Exception e){
+                        Toast.makeText(CreateNewPost.this, "post failed", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
 
-        mTextViewShowUploads.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
     }
 
     private void openFileChooser() {
@@ -113,7 +119,7 @@ public class CreateNewPost extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
                 && data != null && data.getData() != null) {
             mImageUri = data.getData();
-            //Picasso.get().load(mImageUri).into(mImageView);
+            Picasso.get().load(mImageUri).into(mImageView);
         }
     }
     private String getFileExtension(Uri uri) {
@@ -140,33 +146,18 @@ public class CreateNewPost extends AppCompatActivity {
                             }, 500);
 
                             Toast.makeText(CreateNewPost.this, "Upload successful", Toast.LENGTH_LONG).show();
-                            Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),
-                                    taskSnapshot.getMetadata().getReference().getDownloadUrl().toString());
-                            System.out.println( taskSnapshot.getMetadata().getReference().getDownloadUrl().toString());
                             String uploadId = mDatabaseRef.push().getKey();
-                            mDatabaseRef.child(uploadId).setValue(upload);
+                            mDatabaseRef.child(uploadId).setValue(taskSnapshot.getMetadata().getReference().getDownloadUrl().toString());
                             // TODO: 12/17/2021 we were here
-                            //System.out.println(mDatabaseRef.child(uploadId));
-                            /*
-                            String s = mStorageRef.child("/"+mEditTextFileName.getText().toString().trim()).getName();
-                            //System.out.println(s);
 
-                            StorageReference mountainsRef = mStorageRef.child(mEditTextFileName.getText().toString().trim());
-                            //System.out.println(mountainsRef);
-
-                            mStorage = FirebaseStorage.getInstance();
-                            StorageReference gsReference = mStorage.getReferenceFromUrl("gs://makeyourmemory-c56d2.appspot.com/uploads/1639714514048.jpg");
-                            mImageView = findViewById(R.id.image_view);
-                            System.out.println(gsReference.getPath());
-                            Picasso.get()
-                                    .load(gsReference.toString())
-                                    .placeholder(R.mipmap.ic_launcher)
-                                    .fit()
-                                    .centerCrop()
-                                    .into(mImageView);
-
-                        */
-
+                            taskSnapshot.getMetadata().getReference().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    imageUrl = uri.toString();
+                                    description = mEditTextDescreption.getText().toString();
+                                    CreateNewPost.this.getSupportLoaderManager().initLoader(loaderID,null,CreateNewPost.this).forceLoad();
+                                }
+                            });
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -186,48 +177,25 @@ public class CreateNewPost extends AppCompatActivity {
             Toast.makeText(this, "No file selected", Toast.LENGTH_SHORT).show();
         }
     }
-    public class Upload {
-        private String mName;
-        private String mImageUrl;
-        private String mKey;
 
-        public Upload() {
-            //empty constructor needed
-        }
+    @NonNull
+    @Override
+    public Loader<String> onCreateLoader(int id, @Nullable Bundle args) {
+        HashMap<String,String> bodyRequest = new HashMap<String,String>();
+        bodyRequest.put("id", user.getUserId());
+        bodyRequest.put("text", description);
+        bodyRequest.put("imageURL", imageUrl);
+        Server server = new Server(this, Constants.CREATE_NEW_POST, "POST",bodyRequest);
+        return server;
+    }
 
-        public Upload(String name, String imageUrl) {
-            System.out.println(imageUrl);
-            if (name.trim().equals("")) {
-                name = "No Name";
-            }
+    @Override
+    public void onLoadFinished(@NonNull Loader<String> loader, String data) {
+        this.finish();
+    }
 
-            mName = name;
-            mImageUrl = imageUrl;
-        }
+    @Override
+    public void onLoaderReset(@NonNull Loader<String> loader) {
 
-        public String getName() {
-            return mName;
-        }
-
-        public void setName(String name) {
-            mName = name;
-        }
-
-        public String getImageUrl() {
-            return mImageUrl;
-        }
-
-        public void setImageUrl(String imageUrl) {
-            mImageUrl = imageUrl;
-        }
-        @Exclude
-        public String getKey() {
-            return mKey;
-        }
-
-        @Exclude
-        public void setKey(String key) {
-            mKey = key;
-        }
     }
 }

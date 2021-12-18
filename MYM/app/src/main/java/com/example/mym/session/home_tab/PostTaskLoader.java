@@ -30,7 +30,7 @@ public class PostTaskLoader extends AsyncTaskLoader<List<Post>> {
     public List<Post> loadInBackground() {
         List<Post> postsList = new ArrayList<Post>();
         try {
-            URL url = new URL(Constants.SERVER_URL);
+            URL url = new URL(Constants.CREATE_NEW_POST);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.connect();

@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.mym.R;
+import com.example.mym.model.user.User;
 import com.example.mym.session.friends_tab.FriendsFragment;
 import com.example.mym.session.home_tab.DashBoardFragment;
 
@@ -18,10 +19,11 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     @StringRes
     private static final int[] TAB_TITLES = new int[]{R.string.Home, R.string.Friends,R.string.Profile};
     private final Context mContext;
-
-    public SectionsPagerAdapter(Context context, FragmentManager fm) {
+    private final User user;
+    public SectionsPagerAdapter(Context context, FragmentManager fm, User user) {
         super(fm);
         mContext = context;
+        this.user = user;
     }
     @Override
     public int getItemPosition(Object object) {
@@ -33,7 +35,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         // Return a PlaceholderFragment (defined as a static inner class below).
         switch (position){
             case 0:
-                return new DashBoardFragment();
+                return new DashBoardFragment(user);
             default:
                 return new FriendsFragment();
         }

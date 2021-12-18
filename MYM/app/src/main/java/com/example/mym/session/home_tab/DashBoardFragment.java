@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.volley.Request;
 import com.example.mym.R;
 import com.example.mym.model.post.Post;
+import com.example.mym.model.user.User;
 import com.example.mym.server.Constants;
 import com.example.mym.server.Server;
 
@@ -30,6 +31,11 @@ public class DashBoardFragment extends Fragment implements LoaderManager.LoaderC
     RecyclerView dashBoard;
     PostRCAdapter adapter;
     View view;
+    User user;
+    public DashBoardFragment(User user) {
+        this.user = user;
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -37,7 +43,7 @@ public class DashBoardFragment extends Fragment implements LoaderManager.LoaderC
         view =  inflater.inflate(R.layout.fragment_main, container, false);
         dashBoard = view.findViewById(R.id.dashBoard);
         dashBoard.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        adapter = new PostRCAdapter(this.getContext(),new ArrayList<Post>());
+        adapter = new PostRCAdapter(this.getContext(),new ArrayList<Post>(), user);
         dashBoard.setAdapter(adapter);
         this.getActivity().getSupportLoaderManager().initLoader(0,null,this).forceLoad();
         return view;
@@ -50,7 +56,7 @@ public class DashBoardFragment extends Fragment implements LoaderManager.LoaderC
     @NonNull
     @Override
     public Loader<String> onCreateLoader(int id, @Nullable Bundle args) {
-        return new Server(this.getContext(), Constants.SERVER_URL, "GET",null);
+        return new Server(this.getContext(), Constants.GET_ALL_POSTS, "GET",null);
     }
 
     @Override
@@ -66,7 +72,7 @@ public class DashBoardFragment extends Fragment implements LoaderManager.LoaderC
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        adapter = new PostRCAdapter(this.getContext(),  postsList);
+        adapter = new PostRCAdapter(this.getContext(),  postsList, user);
         dashBoard.setAdapter(adapter);
     }
 

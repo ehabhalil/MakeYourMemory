@@ -79,7 +79,7 @@ public class Server extends AsyncTaskLoader<String> {
                     urlConnection.setDoOutput(true);
                     urlConnection.setChunkedStreamingMode(0);
                     body = convertToJSON(data);
-
+                    //System.out.println(data.get(body.)+" this is the body");
                     urlConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
                     out = urlConnection.getOutputStream();
                     out.write(body);

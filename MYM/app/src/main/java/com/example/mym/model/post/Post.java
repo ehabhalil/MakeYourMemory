@@ -1,8 +1,7 @@
 package com.example.mym.model.post;
 
 public class Post {
-    // TODO: 12/14/2021 check post class
-
+    private String ID;
     private String text;
     private String imageURL;
 
@@ -25,5 +24,13 @@ public class Post {
     public Post(String text, String imageURL) {
         this.text = text;
         this.imageURL = imageURL;
+    }
+
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
     }
 }

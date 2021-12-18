@@ -1,16 +1,10 @@
 package com.example.mym.session;
 
-import android.app.Dialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.ImageButton;
-import android.widget.PopupWindow;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -18,12 +12,11 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.mym.R;
 import com.example.mym.authentication.LoginActivity;
-import com.example.mym.authentication.SignUpActivity;
 import com.example.mym.databinding.ActivityMainBinding;
 import com.example.mym.model.user.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
+import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
@@ -37,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
         this.user = user;
     }
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,18 +40,25 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
+        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager(),user);
         ViewPager viewPager = binding.viewPager;
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = binding.tabs;
         tabs.setupWithViewPager(viewPager);
         FloatingActionButton addNewPost = binding.addNewPost;
         ImageButton logout = binding.logout;
+        ImageView userAvatar = binding.bUserAvatar;
+        Picasso.get()
+                .load(user.getAvatar())
+                .placeholder(R.mipmap.ic_launcher)
+                .fit()
+                .centerCrop()
+                .into(userAvatar);
         SwipeRefreshLayout swipeRefreshLayout = binding.swipeRefreshLayout;
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(MainActivity.this, getSupportFragmentManager());
+                SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(MainActivity.this, getSupportFragmentManager(),user);
                 ViewPager viewPager = binding.viewPager;
                 viewPager.setAdapter(sectionsPagerAdapter);
                 swipeRefreshLayout.setRefreshing(false);
@@ -75,9 +77,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent addNewPost = new Intent(MainActivity.this,CreateNewPost.class);
+                addNewPost.putExtra("user",user);
                 MainActivity.this.startActivity(addNewPost);
             }
         });
+
 
     }
 }
