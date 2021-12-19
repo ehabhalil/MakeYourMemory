@@ -47,7 +47,7 @@ public class PostTaskLoader extends AsyncTaskLoader<List<Post>> {
             JSONArray posts = new JSONArray(builder.toString());
             System.out.println(posts);
             for (int i = 0; i < posts.length(); i++) {
-                Post p = new Post(posts.getJSONObject(i).getString("text"),posts.getJSONObject(i).getString("imageURL"));
+                Post p = new Post(posts.getJSONObject(i).getString("_id"),posts.getJSONObject(i).getString("text"),posts.getJSONObject(i).getString("imageURL"));
                 postsList.add(p);
             }
         } catch (IOException | JSONException e) {

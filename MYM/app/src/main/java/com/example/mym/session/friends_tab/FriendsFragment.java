@@ -24,6 +24,7 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class FriendsFragment extends Fragment implements LoaderManager.LoaderCallbacks<String>{
     RecyclerView friends;
@@ -38,7 +39,7 @@ public class FriendsFragment extends Fragment implements LoaderManager.LoaderCal
         friends.setLayoutManager(new LinearLayoutManager(this.getContext()));
         adapter = new UserRCAdapter(this.getContext(),new ArrayList<User>());
         friends.setAdapter(adapter);
-        this.getActivity().getSupportLoaderManager().initLoader(1,null,this).forceLoad();
+        this.requireActivity().getSupportLoaderManager().initLoader(1,null,this).forceLoad();
         return view;
     }
     @Override

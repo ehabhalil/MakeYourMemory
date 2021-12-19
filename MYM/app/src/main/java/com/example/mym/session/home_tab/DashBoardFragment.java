@@ -14,11 +14,11 @@ import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.Request;
 import com.example.mym.R;
 import com.example.mym.model.post.Post;
 import com.example.mym.model.user.User;
 import com.example.mym.server.Constants;
+import com.example.mym.server.PostController;
 import com.example.mym.server.Server;
 
 import org.json.JSONArray;
@@ -43,7 +43,7 @@ public class DashBoardFragment extends Fragment implements LoaderManager.LoaderC
         view =  inflater.inflate(R.layout.fragment_main, container, false);
         dashBoard = view.findViewById(R.id.dashBoard);
         dashBoard.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        adapter = new PostRCAdapter(this.getContext(),new ArrayList<Post>(), user);
+        adapter = new PostRCAdapter(this.getContext(),new ArrayList<Post>(), user,this);
         dashBoard.setAdapter(adapter);
         this.getActivity().getSupportLoaderManager().initLoader(0,null,this).forceLoad();
         return view;
@@ -61,18 +61,14 @@ public class DashBoardFragment extends Fragment implements LoaderManager.LoaderC
 
     @Override
     public void onLoadFinished(@NonNull Loader<String> loader, String data) {
+        PostController postController = new PostController();
         List<Post> postsList = new ArrayList<Post>();
-        JSONArray posts = null;
         try {
-            posts = new JSONArray(data);
-            for (int i = 0; i < posts.length(); i++) {
-                Post p = new Post(posts.getJSONObject(i).getString("text"),posts.getJSONObject(i).getString("imageURL"));
-                postsList.add(p);
-            }
+            postsList = postController.getAllPost(new JSONArray(data));
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        adapter = new PostRCAdapter(this.getContext(),  postsList, user);
+        adapter = new PostRCAdapter(this.getContext(),  postsList, user,this);
         dashBoard.setAdapter(adapter);
     }
 

@@ -13,6 +13,10 @@ const comment = new mongoose.Schema(
       type: String,
       maxLength: 200,
     },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
   },
   { timestamps: true }
 );
@@ -27,7 +31,7 @@ const post = new mongoose.Schema(
       type: String,
     },
     likes: [like],
-    comment: [comment],
+    comments: [comment],
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
