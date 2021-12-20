@@ -8,9 +8,11 @@ const userSchema = mongoose.Schema({
   },
   firstName: {
     type: String,
+    default: 'user',
   },
   lastName: {
     type: String,
+    default: 'user last name',
   },
   password_hash: {
     type: String,
@@ -23,10 +25,13 @@ const userSchema = mongoose.Schema({
   avatar: {
     type: String,
   },
-  friends: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User"
-  }]
+  friends: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      default: [],
+    },
+  ],
 });
 
 userSchema.virtual('fullname').get(function () {

@@ -1,18 +1,16 @@
 package com.example.mym.session.home_tab;
 
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -26,14 +24,11 @@ import com.example.mym.model.user.User;
 import com.example.mym.server.Constants;
 import com.example.mym.server.PostController;
 import com.example.mym.server.Server;
+import com.example.mym.session.home_tab.post_comments.CommentActivity;
 import com.squareup.picasso.Picasso;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 public class PostRCAdapter extends RecyclerView.Adapter<PostRCAdapter.ViewHolder>{
     private final Fragment fragment;
@@ -92,11 +87,18 @@ public class PostRCAdapter extends RecyclerView.Adapter<PostRCAdapter.ViewHolder
             like.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    System.out.println("i : : "+ i);
+
                     fragment.requireActivity().getSupportLoaderManager().restartLoader(++i,null,ViewHolder.this).forceLoad();
                 }
             });
-
+            comment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(fragment.requireActivity(), CommentActivity.class);
+                    intent.putExtra("post", postsList.get(getAdapterPosition()));
+                    fragment.getActivity().startActivity(intent);
+                }
+            });
         }
 
         public void bind(Post post) {
@@ -114,8 +116,6 @@ public class PostRCAdapter extends RecyclerView.Adapter<PostRCAdapter.ViewHolder
                     .fit()
                     .centerCrop()
                     .into(image);
-            //Picasso.get().load(post.getImageURL()).into(avatar);
-            //Picasso.get().load(post.getImageURL()).into(image);
             likesCount.setText(String.valueOf(postsList.get(getAdapterPosition()).getLikes().size()));
             commentCount.setText(String.valueOf(postsList.get(getAdapterPosition()).getComments().size()));
             description.setText(post.getText());
@@ -136,11 +136,6 @@ public class PostRCAdapter extends RecyclerView.Adapter<PostRCAdapter.ViewHolder
 
         @Override
         public void onLoadFinished(@NonNull Loader<String> loader, String data) {
-            PostController postController = new PostController();
-            Post post = null;
-
-            //int newLikesCount = post.getLikes().size();
-           // System.out.println(newLikesCount);
             if(server.getStatusCode() == 404) {
                 newLikesCount += 1;
                 likesCount.setText(String.valueOf(newLikesCount));
@@ -150,6 +145,7 @@ public class PostRCAdapter extends RecyclerView.Adapter<PostRCAdapter.ViewHolder
                 newLikesCount -= 1;
                 likesCount.setText(String.valueOf(newLikesCount));
             }
+            onLoaderReset(loader);
         }
 
         @Override

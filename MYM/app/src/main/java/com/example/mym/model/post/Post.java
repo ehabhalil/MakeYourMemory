@@ -1,18 +1,27 @@
 package com.example.mym.model.post;
 
+import com.example.mym.model.user.User;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Post {
+public class Post implements Serializable {
+    public User getUser() {
+        return user;
+    }
+
+    private  User user;
     private String ID;
     private String text;
     private String imageURL;
     private ArrayList<Like> likes;
     private ArrayList<Comment> comments;
 
-    public Post(String ID, String text, String imageURL, ArrayList<Like> likes, ArrayList<Comment> comments) {
+    public Post(String ID, String text, String imageURL, User user, ArrayList<Like> likes, ArrayList<Comment> comments) {
         this.ID = ID;
         this.text = text;
         this.imageURL = imageURL;
+        this.user = user;
         this.likes = likes;
         this.comments = comments;
     }

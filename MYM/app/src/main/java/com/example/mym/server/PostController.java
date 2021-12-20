@@ -3,6 +3,7 @@ package com.example.mym.server;
 import com.example.mym.model.post.Comment;
 import com.example.mym.model.post.Like;
 import com.example.mym.model.post.Post;
+import com.example.mym.model.user.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,10 +24,15 @@ public class PostController {
 
     }
     public Post getPost(JSONObject post) throws JSONException {
-        return handlePost(post.getString("_id"),post.getString("text"),post.getString("imageURL"),post.getJSONArray("likes"),post.getJSONArray("comments"));
+        return handlePost(post.getString("_id"),
+                post.getString("text"),
+                post.getString("imageURL"),
+                new UserController().getUser(post.getJSONObject("user"),true),
+                post.getJSONArray("likes"),
+                post.getJSONArray("comments"));
     }
 
-    private Post handlePost(String id, String text, String imageURL, JSONArray jLikes, JSONArray jComments) throws JSONException {
+    private Post handlePost(String id, String text, String imageURL,User user, JSONArray jLikes, JSONArray jComments) throws JSONException {
         ArrayList<Like> likes = new ArrayList<Like>();
         ArrayList<Comment> comments = new ArrayList<Comment>();
         for (int i = 0; i < jLikes.length(); i++) {
@@ -34,10 +40,10 @@ public class PostController {
             likes.add(like);
         }
         for (int i = 0; i < jComments.length(); i++) {
-            Comment comment = new Comment(jComments.getJSONObject(i).getString("text"),jComments.getJSONObject(i).getString("user"));
+            Comment comment = new Comment(jComments.getJSONObject(i).getString("text"),jComments.getJSONObject(i).getJSONObject("user"));
             comments.add(comment);
         }
-        return new Post(id,text,imageURL,likes,comments);
+        return new Post(id,text,imageURL,user,likes,comments);
     }
 
     public void setPost(Post post) {

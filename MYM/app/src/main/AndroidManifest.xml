@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.mym" >
+    package="com.example.mym">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -12,8 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MYM"
-        android:usesCleartextTraffic="true" >
-
+        android:usesCleartextTraffic="true">
         <activity
             android:name=".session.MainActivity"
             android:exported="false"
@@ -21,6 +20,9 @@
             android:theme="@style/Theme.MYM.NoActionBar" />
         <activity
             android:name=".authentication.SignUpActivity"
+            android:exported="true" />
+        <activity
+            android:name=".session.home_tab.post_comments.CommentActivity"
             android:exported="false" />
         <activity
             android:name=".session.CreateNewPost"
@@ -29,7 +31,7 @@
             android:name=".authentication.LoginActivity"
             android:exported="true"
             android:label="@string/title_activity_main"
-            android:theme="@style/Theme.MYM.NoActionBar" >
+            android:theme="@style/Theme.MYM.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

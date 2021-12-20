@@ -1,6 +1,8 @@
 package com.example.mym.model.post;
 
-public class Like {
+import java.io.Serializable;
+
+public class Like implements Serializable {
     // TODO: 12/14/2021 set like class
     private String userId;
 

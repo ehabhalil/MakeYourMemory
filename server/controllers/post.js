@@ -1,12 +1,12 @@
-const Post = require("../models/Post");
-const mongoose = require("mongoose");
-const { json } = require("express/lib/response");
+const Post = require('../models/Post');
+const mongoose = require('mongoose');
+const { json } = require('express/lib/response');
 
 //----------------/
 const getAllPosts = async (req, res) => {
   const { id } = req.params;
   try {
-    const resp = await Post.find({});
+    const resp = await Post.find({}).populate('user');
     return res.json(resp);
   } catch (error) {
     return res.status(401).json(error.message);
@@ -23,6 +23,26 @@ const addNewPost = async (req, res) => {
       likes: likes,
       user: id,
     });
+    return res.json(resp);
+  } catch (error) {
+    return res.status(401).json(error.message);
+  }
+};
+const addNewComment = async (req, res) => {
+  const { userId, postId, text, imageURL, userName } = req.body;
+  console.log(req.body);
+  try {
+    const resp = await Post.findById(postId);
+    console.log(resp);
+    resp.comments.push({
+      text,
+      user: {
+        id: userId,
+        imageURL: imageURL,
+        userName: userName,
+      },
+    });
+    await resp.save();
     return res.json(resp);
   } catch (error) {
     return res.status(401).json(error.message);
@@ -61,4 +81,5 @@ module.exports = {
   getAllPosts,
   addNewPost,
   validateLikeWithUser,
+  addNewComment,
 };

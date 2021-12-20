@@ -1,9 +1,9 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const like = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: 'User',
   },
 });
 
@@ -14,8 +14,20 @@ const comment = new mongoose.Schema(
       maxLength: 200,
     },
     user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      type: Object,
+
+      id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+      },
+      imageURL: {
+        type: String,
+        required: true,
+      },
+      userName: {
+        type: String,
+        required: true,
+      },
     },
   },
   { timestamps: true }
@@ -34,10 +46,10 @@ const post = new mongoose.Schema(
     comments: [comment],
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
     },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Post", post);
+module.exports = mongoose.model('Post', post);

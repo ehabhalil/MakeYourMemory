@@ -9,4 +9,6 @@ public class Constants {
     public static final String GET_ALL_POSTS = BASE_URL +"post/";
     public static final String VALIDATE_LIKE_WITH_USER = BASE_URL +"user/post/validateLikeWithUser";
 
+    public static final String ADD_NEW_COMMENT = BASE_URL +"user/post/comment";
+    public static final String CREATE_NEW_USER = BASE_URL +"auth/signup";
 }

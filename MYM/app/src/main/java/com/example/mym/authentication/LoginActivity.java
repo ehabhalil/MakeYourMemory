@@ -51,7 +51,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
         this.getSupportLoaderManager().initLoader(i++,null,this).forceLoad();
     }
     public void authenticateSignUp(View view) {
-        // TODO: 12/14/2021 implement signup
         Intent signUpActivity = new Intent(this, SignUpActivity.class);
         startActivity(signUpActivity);
     }
@@ -81,7 +80,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
 
     @Override
     public void onLoadFinished(@NonNull Loader<String> loader, String res) {
-        // TODO: 12/14/2021 implement sign in and set bundle for user
         try {
             if(server.getStatusCode() == 0) {
                 Toast.makeText(this, "can not connect to server", Toast.LENGTH_SHORT).show();

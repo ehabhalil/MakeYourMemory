@@ -1,13 +1,24 @@
 package com.example.mym.model.post;
 
-public class Comment {
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.Serializable;
+
+public class Comment implements Serializable {
     // TODO: 12/14/2021 set comment class
     private String text;
-    private String userId;
+    private String userName;
+    private String imageUrl;
 
-    public Comment(String text, String userId) {
+    public Comment(String text, JSONObject user) throws JSONException {
         this.text = text;
-        this.userId = userId;
+        handleUser(user);
+    }
+
+    private void handleUser(JSONObject user) throws JSONException {
+        this.imageUrl = user.getString("imageURL");
+        this.userName = user.getString("userName");
     }
 
     public Comment(String text) {
@@ -22,11 +33,19 @@ public class Comment {
         this.text = text;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUserName(String userId) {
+        this.userName = userId;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }
