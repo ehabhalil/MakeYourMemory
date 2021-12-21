@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class UserController {
     // TODO: 12/14/2021 get all user
@@ -16,9 +17,23 @@ public class UserController {
     public UserController() {
 
     }
+    public ArrayList<User> getAllUsers(String data){
+        ArrayList<User> usersList = new ArrayList<User>();
+        JSONArray users = null;
+        try {
+            users = new JSONArray(data);
+            for (int i = 0; i < users.length(); i++) {
 
-    public User getUser(JSONObject user,Boolean onlyThisOne) throws JSONException {
-        if(!onlyThisOne)
+                User p = getUser(users.getJSONObject(i),true);
+                usersList.add(p);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return usersList;
+    }
+    public User getUser(JSONObject user,Boolean withoutHisFriends) throws JSONException {
+        if(!withoutHisFriends)
             return
                 new User(
                         user.getString("_id"),

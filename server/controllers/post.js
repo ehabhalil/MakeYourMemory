@@ -1,21 +1,37 @@
 const Post = require('../models/Post');
+const User = require('../models/User');
 const mongoose = require('mongoose');
-const { json } = require('express/lib/response');
 
-//----------------/
 const getAllPosts = async (req, res) => {
-  const { id } = req.params;
+  const { userId } = req.body;
   try {
-    const resp = await Post.find({}).populate('user');
+    const mainUser = await User.findById(userId);
+    mainUser.friends.push(mongoose.Types.ObjectId(userId));
+    const resp = await Post.find({
+      user: {
+        $in: mainUser.friends,
+      },
+    })
+      .populate('user')
+      .sort({ createdAt: -1 });
     return res.json(resp);
   } catch (error) {
     return res.status(401).json(error.message);
   }
 };
-
+const getUserPosts = async (req, res) => {
+  const { userId } = req.body;
+  try {
+    const resp = await Post.find({ user: mongoose.Types.ObjectId(userId) })
+      .populate('user')
+      .sort({ createdAt: -1 });
+    return res.json(resp);
+  } catch (error) {
+    return res.status(401).json(error.message);
+  }
+};
 const addNewPost = async (req, res) => {
   const { id, text, imageURL, likes } = req.body;
-  console.log(req.body);
   try {
     const resp = await Post.create({
       text,
@@ -28,12 +44,19 @@ const addNewPost = async (req, res) => {
     return res.status(401).json(error.message);
   }
 };
+const deletePost = async (req, res) => {
+  const { postId } = req.body;
+  try {
+    const resp = await Post.findByIdAndDelete(postId);
+    return res.json(resp);
+  } catch (error) {
+    return res.status(401).json(error.message);
+  }
+};
 const addNewComment = async (req, res) => {
   const { userId, postId, text, imageURL, userName } = req.body;
-  console.log(req.body);
   try {
     const resp = await Post.findById(postId);
-    console.log(resp);
     resp.comments.push({
       text,
       user: {
@@ -51,7 +74,6 @@ const addNewComment = async (req, res) => {
 const validateLikeWithUser = async (req, res) => {
   const { userId, postId } = req.body;
   try {
-    console.log(req.body);
     const resp = await Post.findById(postId);
     let a = [];
     resp.likes.filter((element) => {
@@ -76,10 +98,11 @@ const validateLikeWithUser = async (req, res) => {
     return res.status(401).json(error.message);
   }
 };
-//----------------/
 module.exports = {
   getAllPosts,
   addNewPost,
   validateLikeWithUser,
   addNewComment,
+  getUserPosts,
+  deletePost,
 };

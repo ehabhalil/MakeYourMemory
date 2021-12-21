@@ -6,9 +6,7 @@ const postRoutes = require('../routes/post');
 
 router.use('/post', postRoutes);
 
-////////////// TODO add all routes
 router.get('/friends', userController.getAllFriends);
-router.get('/:id/friends', userController.getAllFriends);
-router.post('/', userController.addNewUser);
-////////////
+router.post('/changeFriendRelation', userController.changeFriendRelation);
+
 module.exports = router;

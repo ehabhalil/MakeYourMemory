@@ -18,6 +18,7 @@ import com.example.mym.R;
 import com.example.mym.model.user.User;
 import com.example.mym.server.Constants;
 import com.example.mym.server.Server;
+import com.example.mym.server.UserController;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,6 +31,15 @@ public class FriendsFragment extends Fragment implements LoaderManager.LoaderCal
     RecyclerView friends;
     UserRCAdapter adapter;
     View view;
+    static User user;
+    public FriendsFragment(User user){
+        this.user = user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -37,15 +47,14 @@ public class FriendsFragment extends Fragment implements LoaderManager.LoaderCal
         view =  inflater.inflate(R.layout.fragment_friends, container, false);
         friends = view.findViewById(R.id.friendsRecycleView);
         friends.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        adapter = new UserRCAdapter(this.getContext(),new ArrayList<User>());
+        adapter = new UserRCAdapter(this.getContext(),new ArrayList<User>(),user,this);
         friends.setAdapter(adapter);
-        this.requireActivity().getSupportLoaderManager().initLoader(1,null,this).forceLoad();
+        this.requireActivity().getSupportLoaderManager().restartLoader(1,null,this).forceLoad();
         return view;
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
     @NonNull
     @Override
@@ -55,28 +64,9 @@ public class FriendsFragment extends Fragment implements LoaderManager.LoaderCal
 
     @Override
     public void onLoadFinished(@NonNull Loader<String> loader, String data) {
-        List<User> usersList = new ArrayList<User>();
-        JSONArray users = null;
-        try {
-            users = new JSONArray(data);
-            for (int i = 0; i < users.length(); i++) {
-
-                User p = new User(
-                        users.getJSONObject(i).getString("_id"),
-                        users.getJSONObject(i).getString("userName"),
-                        users.getJSONObject(i).getString("firstName"),
-                        users.getJSONObject(i).getString("lastName"),
-                        users.getJSONObject(i).getString("password_hash"),
-                        users.getJSONObject(i).getString("userName"),
-                        users.getJSONObject(i).getString("avatar"),null
-                        //users.getJSONObject(i).getJSONArray("friends")
-                );
-                usersList.add(p);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        adapter = new UserRCAdapter(this.getContext(),  usersList);
+        UserController userController = new UserController();
+        ArrayList<User> usersList = userController.getAllUsers(data);
+        adapter = new UserRCAdapter(this.getContext(),  usersList,user,this);
         friends.setAdapter(adapter);
     }
 

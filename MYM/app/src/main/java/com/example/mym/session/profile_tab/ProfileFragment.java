@@ -1,10 +1,11 @@
-package com.example.mym.session.home_tab;
+package com.example.mym.session.profile_tab;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +21,9 @@ import com.example.mym.model.user.User;
 import com.example.mym.server.Constants;
 import com.example.mym.server.PostController;
 import com.example.mym.server.Server;
+import com.example.mym.server.UserController;
+import com.example.mym.session.home_tab.PostRCAdapter;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,38 +32,50 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class DashBoardFragment extends Fragment implements LoaderManager.LoaderCallbacks<String>{
-    RecyclerView dashBoard;
-    PostRCAdapter adapter;
+public class ProfileFragment extends Fragment implements LoaderManager.LoaderCallbacks<String>{
+    RecyclerView posts;
+    ProfileRCAdapter adapter;
     View view;
-    User user;
-    public DashBoardFragment(User user) {
-        this.user = user;
+    static User user;
+    public ProfileFragment(User user){
+        ProfileFragment.user = user;
+    }
+
+    public void setUser(User user) {
+        ProfileFragment.user = user;
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view =  inflater.inflate(R.layout.fragment_main, container, false);
-        dashBoard = view.findViewById(R.id.dashBoard);
-        dashBoard.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        adapter = new PostRCAdapter(this.getContext(),new ArrayList<Post>(), user,this);
-        dashBoard.setAdapter(adapter);
-        this.getActivity().getSupportLoaderManager().initLoader(0,null,this).forceLoad();
+        view =  inflater.inflate(R.layout.fragment_profile, container, false);
+        ImageView avatar = view.findViewById(R.id.avatarP);
+        TextView userName = view.findViewById(R.id.userNameP);
+        userName.setText(user.getUserName());
+        Picasso.get()
+                .load(user.getAvatar())
+                .placeholder(R.mipmap.ic_launcher)
+                .fit()
+                .centerCrop()
+                .into(avatar);
+        posts = view.findViewById(R.id.userPostsP);
+        posts.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        adapter = new ProfileRCAdapter(this.getContext(),new ArrayList<Post>(),user,this);
+        posts.setAdapter(adapter);
+        this.requireActivity().getSupportLoaderManager().restartLoader(1,null,this).forceLoad();
         return view;
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
     @NonNull
     @Override
     public Loader<String> onCreateLoader(int id, @Nullable Bundle args) {
-        HashMap<String,String> bodyRequest = new HashMap<String, String>();
+        HashMap<String,String> bodyRequest = new HashMap<>();
         bodyRequest.put("userId",user.getUserId());
-        return new Server(this.getContext(), Constants.GET_ALL_POSTS, "POST",bodyRequest);
+        return new Server(this.getContext(), Constants.GET_USER_POSTS, "POST",bodyRequest);
     }
 
     @Override
@@ -71,8 +87,8 @@ public class DashBoardFragment extends Fragment implements LoaderManager.LoaderC
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        adapter = new PostRCAdapter(this.getContext(),  postsList, user,this);
-        dashBoard.setAdapter(adapter);
+        adapter = new ProfileRCAdapter(this.getContext(),  postsList, user,this);
+        posts.setAdapter(adapter);
     }
 
     @Override

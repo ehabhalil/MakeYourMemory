@@ -14,10 +14,6 @@ const port = process.env.NODE_LOCAL_PORT;
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 ////////////////
-app.post('/', (req, res) => {
-  console.log(req.body);
-  res.json();
-});
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
 app.use('/post', postRoutes);

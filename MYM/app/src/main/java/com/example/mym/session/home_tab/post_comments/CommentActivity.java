@@ -93,7 +93,7 @@ public class CommentActivity extends AppCompatActivity implements LoaderManager.
         bodyRequest.put("postId",post.getID());
         bodyRequest.put("imageURL", user.getAvatar());
         bodyRequest.put("text",commentDiscrepitonCS.getText().toString());
-        bodyRequest.put("userName",post.getID());
+        bodyRequest.put("userName",user.getUserName());
         server = new Server(this, Constants.ADD_NEW_COMMENT,"POST",bodyRequest);
         return server;
     }

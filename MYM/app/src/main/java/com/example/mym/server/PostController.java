@@ -13,13 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PostController {
-    // TODO: 12/14/2021 get all posts for dashboard
-    // TODO: 12/14/2021 add new post
-    // TODO: 12/14/2021 update post
-    // TODO: 12/14/2021 delete post
-    // TODO: 12/14/2021 get all posts for profile with user id
-    private Post post;
-
     public PostController() {
 
     }
@@ -44,10 +37,6 @@ public class PostController {
             comments.add(comment);
         }
         return new Post(id,text,imageURL,user,likes,comments);
-    }
-
-    public void setPost(Post post) {
-        this.post = post;
     }
 
     public List<Post> getAllPost(JSONArray posts) {

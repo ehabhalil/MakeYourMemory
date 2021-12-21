@@ -87,4 +87,12 @@ public class User implements Serializable {
     public void setUserId(String userId) {
         UserId = userId;
     }
+
+    public boolean exists(ArrayList<User> friends) {
+        for(int i =0;i<friends.size();i++){
+            if(friends.get(i).getUserId().equals(this.UserId))
+                return true;
+        }
+        return false;
+    }
 }

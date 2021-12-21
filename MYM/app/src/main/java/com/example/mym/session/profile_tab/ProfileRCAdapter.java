@@ -1,4 +1,4 @@
-package com.example.mym.session.home_tab;
+package com.example.mym.session.profile_tab;
 
 import android.content.Context;
 import android.content.Intent;
@@ -30,17 +30,20 @@ import com.squareup.picasso.Picasso;
 import java.util.HashMap;
 import java.util.List;
 
-public class PostRCAdapter extends RecyclerView.Adapter<PostRCAdapter.ViewHolder>{
+public class ProfileRCAdapter extends RecyclerView.Adapter<ProfileRCAdapter.ViewHolder>{
     private final Fragment fragment;
     Context context;
     List<Post> postsList;
     private User user;
     int iLoader = 1254;
-    public PostRCAdapter(Context context, List<Post> postsList, User user, Fragment fragment) {
+    public ProfileRCAdapter(Context context, List<Post> postsList, User user, Fragment fragment) {
         this.context = context;
         this.postsList = postsList;
         this.user = user;
         this.fragment = fragment;
+        for (int i = 0; i < postsList.size(); i++) {
+            System.out.println("post list: " + postsList.get(i).getText());
+        }
     }
 
     @NonNull
@@ -67,10 +70,12 @@ public class PostRCAdapter extends RecyclerView.Adapter<PostRCAdapter.ViewHolder
         TextView userName;
         Button like;
         Button comment;
+        Button delete;
         TextView likesCount;
         TextView commentCount;
         String postId;
         Server server;
+        boolean likeRequest;
         int newLikesCount;
         int i ;
         public ViewHolder(@NonNull View itemView) {
@@ -83,11 +88,13 @@ public class PostRCAdapter extends RecyclerView.Adapter<PostRCAdapter.ViewHolder
             comment = itemView.findViewById(R.id.comment);
             likesCount = itemView.findViewById(R.id.likeCount);
             commentCount = itemView.findViewById(R.id.commentCount);
+            delete = itemView.findViewById(R.id.delete);
+            delete.setVisibility(View.VISIBLE);
             this.i = iLoader++;
             like.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    likeRequest = true;
                     fragment.requireActivity().getSupportLoaderManager().restartLoader(++i,null,ViewHolder.this).forceLoad();
                 }
             });
@@ -97,6 +104,14 @@ public class PostRCAdapter extends RecyclerView.Adapter<PostRCAdapter.ViewHolder
                     Intent intent = new Intent(fragment.requireActivity(), CommentActivity.class);
                     intent.putExtra("post", postsList.get(getAdapterPosition()));
                     fragment.getActivity().startActivity(intent);
+                }
+            });
+            delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    likeRequest = false;
+                    fragment.requireActivity().getSupportLoaderManager().restartLoader(++i,null,ViewHolder.this).forceLoad();
+
                 }
             });
         }
@@ -126,26 +141,42 @@ public class PostRCAdapter extends RecyclerView.Adapter<PostRCAdapter.ViewHolder
         @NonNull
         @Override
         public Loader<String> onCreateLoader(int id, @Nullable Bundle args) {
-            HashMap<String,String> bodyRequest = new HashMap<String, String>();
-            bodyRequest.put("userId",user.getUserId());
-            bodyRequest.put("postId",postsList.get(this.getAdapterPosition()).getID());
-            //System.out.println(bodyRequest.get("userId"));
-            server = new Server(context, Constants.VALIDATE_LIKE_WITH_USER,"POST",bodyRequest);
-            return server;
+            if(likeRequest){
+                HashMap<String,String> bodyRequest = new HashMap<String, String>();
+                bodyRequest.put("userId",user.getUserId());
+                bodyRequest.put("postId",postsList.get(this.getAdapterPosition()).getID());
+                server = new Server(context, Constants.VALIDATE_LIKE_WITH_USER,"POST",bodyRequest);
+                return server;
+            }
+            else {
+                System.out.println(postsList.size());
+                HashMap<String,String> bodyRequest = new HashMap<String, String>();
+                bodyRequest.put("postId",postsList.get(getAdapterPosition()).getID());
+                server = new Server(context, Constants.DELETE_POST,"POST",bodyRequest);
+                return server;
+            }
         }
 
         @Override
         public void onLoadFinished(@NonNull Loader<String> loader, String data) {
-            if(server.getStatusCode() == 404) {
-                newLikesCount += 1;
-                likesCount.setText(String.valueOf(newLikesCount));
+            if(likeRequest){
+                if(server.getStatusCode() == 404) {
+                    newLikesCount += 1;
+                    likesCount.setText(String.valueOf(newLikesCount));
 
+                }
+                else if(server.getStatusCode() == 200){
+                    newLikesCount -= 1;
+                    likesCount.setText(String.valueOf(newLikesCount));
+                }
+                onLoaderReset(loader);
             }
-            else if(server.getStatusCode() == 200){
-                newLikesCount -= 1;
-                likesCount.setText(String.valueOf(newLikesCount));
+            else {
+                postsList.remove(getAdapterPosition());
+                notifyDataSetChanged();
+                notifyItemChanged(getAdapterPosition());
+                notifyItemRemoved(getAdapterPosition());
             }
-            onLoaderReset(loader);
         }
 
         @Override

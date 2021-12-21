@@ -14,7 +14,6 @@ const login = async (req, res) => {
 const signup = async (req, res) => {
   const x = ({ userName, password, avatar } = req.body);
   try {
-    console.log(req.body);
     const resp = await User.create({
       userName,
       password_hash: password,
@@ -25,7 +24,6 @@ const signup = async (req, res) => {
     return res.status(401).json(error.message);
   }
 };
-//----------------/
 module.exports = {
   login,
   signup,

@@ -1,9 +1,7 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
-//--------------------/
 const getAllFriends = async (req, res) => {
   try {
-    console.log('get all friends');
     const user = await User.find({}).populate('friends');
     if (!user) return res.status(404).json({ messege: 'user not found' });
     else return res.json(user);
@@ -11,34 +9,31 @@ const getAllFriends = async (req, res) => {
     return res.status(401).json(error.message);
   }
 };
-
-const addNewUser = async (req, res) => {
-  const { userName, firstName, lastName, password, password2, avatar } = req.body;
+const changeFriendRelation = async (req, res) => {
+  const { userId, friendId } = req.body;
   try {
-    const user = await User.findOne({ userName });
-    if (user) {
-      return res.status(400).json('username already exists');
+    const resp = await User.findById(userId);
+    if (!resp.friends.includes(friendId)) {
+      resp.friends.push(friendId);
+      await resp.save();
+      return res.status(200).json({ user: await resp.populate('friends'), statue: true });
+    } else {
+      let a = [];
+      resp.friends.filter((v) => {
+        if (v != friendId) {
+          a.push(v);
+        }
+      });
+      resp.friends = a;
+      await resp.save();
+      return res.status(200).json({ user: await resp.populate('friends'), statue: false });
     }
-    if (password !== password2) {
-      return res.status(400).json('passwords do not match');
-    }
-    // hash the password using bcrypt and salt
-    let hashed_password = await bcrypt.hash(password, 10);
-    const resp = await User.create({
-      userName: userName,
-      firstName: firstName,
-      lastName: lastName,
-      avatar: avatar,
-      password_hash: hashed_password,
-    });
-    return res.status(201).json(resp);
   } catch (error) {
     return res.status(401).json(error.message);
   }
 };
-//--------------------/
 
 module.exports = {
   getAllFriends,
-  addNewUser,
+  changeFriendRelation,
 };

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -48,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
         FloatingActionButton addNewPost = binding.addNewPost;
         ImageButton logout = binding.logout;
         ImageView userAvatar = binding.bUserAvatar;
+        TextView bUserName = binding.bUserName;
+        bUserName.setText(user.getUserName());
         Picasso.get()
                 .load(user.getAvatar())
                 .placeholder(R.mipmap.ic_launcher)
@@ -81,7 +84,13 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.startActivity(addNewPost);
             }
         });
+    }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(MainActivity.this, getSupportFragmentManager(),user);
+        ViewPager viewPager = binding.viewPager;
+        viewPager.setAdapter(sectionsPagerAdapter);
     }
 }
