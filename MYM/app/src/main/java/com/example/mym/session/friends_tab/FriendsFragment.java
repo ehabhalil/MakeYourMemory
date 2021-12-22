@@ -15,17 +15,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.mym.R;
-import com.example.mym.model.user.User;
-import com.example.mym.server.Constants;
+import com.example.mym.server.model.user.User;
+import com.example.mym.server.URLs;
 import com.example.mym.server.Server;
-import com.example.mym.server.UserController;
-
-import org.json.JSONArray;
-import org.json.JSONException;
+import com.example.mym.server.controller.UserController;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 public class FriendsFragment extends Fragment implements LoaderManager.LoaderCallbacks<String>{
     RecyclerView friends;
@@ -59,7 +54,7 @@ public class FriendsFragment extends Fragment implements LoaderManager.LoaderCal
     @NonNull
     @Override
     public Loader<String> onCreateLoader(int id, @Nullable Bundle args) {
-        return new Server(this.getContext(), Constants.GET_ALL_USERS, "GET",null);
+        return new Server(this.getContext(), URLs.GET_ALL_USERS, "GET",null);
     }
 
     @Override

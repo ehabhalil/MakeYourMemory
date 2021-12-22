@@ -1,7 +1,6 @@
 package com.example.mym.session.home_tab;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +14,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mym.R;
-import com.example.mym.model.post.Post;
-import com.example.mym.model.user.User;
-import com.example.mym.server.Constants;
-import com.example.mym.server.PostController;
+import com.example.mym.server.model.post.Post;
+import com.example.mym.server.model.user.User;
+import com.example.mym.server.URLs;
+import com.example.mym.server.controller.PostController;
 import com.example.mym.server.Server;
 
 import org.json.JSONArray;
@@ -28,12 +27,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class DashBoardFragment extends Fragment implements LoaderManager.LoaderCallbacks<String>{
+public class HomeFragment extends Fragment implements LoaderManager.LoaderCallbacks<String>{
     RecyclerView dashBoard;
     PostRCAdapter adapter;
     View view;
     User user;
-    public DashBoardFragment(User user) {
+    public HomeFragment(User user) {
         this.user = user;
     }
 
@@ -59,7 +58,7 @@ public class DashBoardFragment extends Fragment implements LoaderManager.LoaderC
     public Loader<String> onCreateLoader(int id, @Nullable Bundle args) {
         HashMap<String,String> bodyRequest = new HashMap<String, String>();
         bodyRequest.put("userId",user.getUserId());
-        return new Server(this.getContext(), Constants.GET_ALL_POSTS, "POST",bodyRequest);
+        return new Server(this.getContext(), URLs.GET_ALL_POSTS, "POST",bodyRequest);
     }
 
     @Override

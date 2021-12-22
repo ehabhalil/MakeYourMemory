@@ -11,9 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mym.R;
-import com.example.mym.model.post.Comment;
-import com.example.mym.model.post.Post;
-import com.example.mym.session.home_tab.PostRCAdapter;
+import com.example.mym.server.model.post.Comment;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

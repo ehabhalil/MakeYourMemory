@@ -1,4 +1,4 @@
-package com.example.mym.model.post;
+package com.example.mym.server.model.post;
 
 import java.io.Serializable;
 

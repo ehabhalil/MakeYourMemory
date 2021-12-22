@@ -1,6 +1,6 @@
-package com.example.mym.model.post;
+package com.example.mym.server.model.post;
 
-import com.example.mym.model.user.User;
+import com.example.mym.server.model.user.User;
 
 import java.io.Serializable;
 import java.util.ArrayList;

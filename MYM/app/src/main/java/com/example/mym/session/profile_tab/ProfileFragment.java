@@ -16,13 +16,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mym.R;
-import com.example.mym.model.post.Post;
-import com.example.mym.model.user.User;
-import com.example.mym.server.Constants;
-import com.example.mym.server.PostController;
+import com.example.mym.server.model.post.Post;
+import com.example.mym.server.model.user.User;
+import com.example.mym.server.URLs;
+import com.example.mym.server.controller.PostController;
 import com.example.mym.server.Server;
-import com.example.mym.server.UserController;
-import com.example.mym.session.home_tab.PostRCAdapter;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -75,7 +73,7 @@ public class ProfileFragment extends Fragment implements LoaderManager.LoaderCal
     public Loader<String> onCreateLoader(int id, @Nullable Bundle args) {
         HashMap<String,String> bodyRequest = new HashMap<>();
         bodyRequest.put("userId",user.getUserId());
-        return new Server(this.getContext(), Constants.GET_USER_POSTS, "POST",bodyRequest);
+        return new Server(this.getContext(), URLs.GET_USER_POSTS, "POST",bodyRequest);
     }
 
     @Override

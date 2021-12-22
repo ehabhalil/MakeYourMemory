@@ -9,9 +9,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.mym.R;
-import com.example.mym.model.user.User;
+import com.example.mym.server.model.user.User;
 import com.example.mym.session.friends_tab.FriendsFragment;
-import com.example.mym.session.home_tab.DashBoardFragment;
+import com.example.mym.session.home_tab.HomeFragment;
 import com.example.mym.session.profile_tab.ProfileFragment;
 
 
@@ -36,7 +36,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         // Return a PlaceholderFragment (defined as a static inner class below).
         switch (position){
             case 0:
-                return new DashBoardFragment(user);
+                return new HomeFragment(user);
             case 1:
                 return new FriendsFragment(user);
             default:

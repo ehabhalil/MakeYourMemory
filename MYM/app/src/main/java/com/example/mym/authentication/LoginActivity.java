@@ -8,14 +8,13 @@ import androidx.loader.content.Loader;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.icu.util.LocaleData;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.mym.model.user.User;
-import com.example.mym.server.Constants;
+import com.example.mym.server.model.user.User;
+import com.example.mym.server.URLs;
 import com.example.mym.server.Server;
 import com.example.mym.session.MainActivity;
 import com.example.mym.R;
@@ -26,7 +25,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class LoginActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String> {
     Server server;
@@ -47,14 +45,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
         else setContentView(R.layout.login);
 
     }
-    public void authenticateLogin(View view) {
-        this.getSupportLoaderManager().initLoader(i++,null,this).forceLoad();
-    }
+
     public void authenticateSignUp(View view) {
         Intent signUpActivity = new Intent(this, SignUpActivity.class);
         startActivity(signUpActivity);
     }
-
+    public void authenticateLogin(View view) {
+        this.getSupportLoaderManager().initLoader(i++,null,this).forceLoad();
+    }
     @NonNull
     @Override
     public Loader<String> onCreateLoader(int id, @Nullable Bundle args) {
@@ -67,13 +65,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
             HashMap<String,String> bodyRequest = new HashMap<String,String>();
             bodyRequest.put("userName",userName);
             bodyRequest.put("password",password);
-            server = new Server(this, Constants.SIGN_IN, "POST",bodyRequest);
+            server = new Server(this, URLs.SIGN_IN, "POST",bodyRequest);
         }
         else {
             HashMap<String,String> bodyRequest = new HashMap<String,String>();
             bodyRequest.put("userName",session()[0]);
             bodyRequest.put("password",session()[1]);
-            server = new Server(this, Constants.SIGN_IN, "POST",bodyRequest);
+            server = new Server(this, URLs.SIGN_IN, "POST",bodyRequest);
         }
         return server;
     }
@@ -86,6 +84,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
                 return;
             }
             else if(server.getStatusCode() == 404) {
+
                 Toast.makeText(this, "wrong username or password", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -132,6 +131,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
                 mainActivity.putExtra("user",user);
                 startActivity(mainActivity);
                 this.finish();
+
+
             }
         } catch (JSONException e) {
             e.printStackTrace();

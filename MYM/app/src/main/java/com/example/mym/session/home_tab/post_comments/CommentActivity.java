@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,39 +12,32 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.loader.app.LoaderManager;
-import androidx.loader.content.AsyncTaskLoader;
 import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mym.R;
-import com.example.mym.model.post.Comment;
-import com.example.mym.model.post.Post;
-import com.example.mym.model.user.User;
-import com.example.mym.server.Constants;
-import com.example.mym.server.PostController;
+import com.example.mym.server.model.post.Post;
+import com.example.mym.server.model.user.User;
+import com.example.mym.server.URLs;
 import com.example.mym.server.Server;
-import com.example.mym.session.home_tab.PostRCAdapter;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class CommentActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String> {
     int i = 2840;
     Server server;
     Post post;
     User user;
+    User postOwner;
     EditText commentDiscrepitonCS;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         post = (Post) getIntent().getSerializableExtra("post");
-        user = post.getUser();
+        postOwner = post.getUser();
+        user = (User) getIntent().getSerializableExtra("user");
         setContentView(R.layout.activity_comment);
         ImageView avatar = findViewById(R.id.avatarCS);
         ImageView image = findViewById(R.id.imageCS);
@@ -65,7 +57,7 @@ public class CommentActivity extends AppCompatActivity implements LoaderManager.
             }
         });
         Picasso.get()
-                .load(user.getAvatar())
+                .load(postOwner.getAvatar())
                 .placeholder(R.mipmap.ic_launcher)
                 .fit()
                 .centerCrop()
@@ -77,7 +69,7 @@ public class CommentActivity extends AppCompatActivity implements LoaderManager.
                 .centerCrop()
                 .into(image);
         description.setText(post.getText());
-        userName.setText(user.getUserName());
+        userName.setText(postOwner.getUserName());
 
         RecyclerView commentList = findViewById(R.id.commentList);
         commentList.setLayoutManager(new LinearLayoutManager(this));
@@ -94,7 +86,7 @@ public class CommentActivity extends AppCompatActivity implements LoaderManager.
         bodyRequest.put("imageURL", user.getAvatar());
         bodyRequest.put("text",commentDiscrepitonCS.getText().toString());
         bodyRequest.put("userName",user.getUserName());
-        server = new Server(this, Constants.ADD_NEW_COMMENT,"POST",bodyRequest);
+        server = new Server(this, URLs.ADD_NEW_COMMENT,"POST",bodyRequest);
         return server;
     }
 

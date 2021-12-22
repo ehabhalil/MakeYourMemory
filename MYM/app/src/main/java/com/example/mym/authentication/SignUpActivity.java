@@ -10,20 +10,16 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.mym.R;
-import com.example.mym.model.user.User;
-import com.example.mym.server.Constants;
+import com.example.mym.server.URLs;
 import com.example.mym.server.Server;
-import com.example.mym.session.CreateNewPost;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
@@ -173,7 +169,7 @@ public class SignUpActivity extends AppCompatActivity implements LoaderManager.L
         bodyRequest.put("userName", userName.getText().toString());
         bodyRequest.put("password", password.getText().toString());
         bodyRequest.put("avatar", imageUrl);
-        server = new Server(this, Constants.CREATE_NEW_USER, "POST",bodyRequest);
+        server = new Server(this, URLs.CREATE_NEW_USER, "POST",bodyRequest);
         return server;
     }
 

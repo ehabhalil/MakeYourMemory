@@ -17,17 +17,15 @@ import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mym.R;
-import com.example.mym.model.user.User;
-import com.example.mym.server.Constants;
+import com.example.mym.server.model.user.User;
+import com.example.mym.server.URLs;
 import com.example.mym.server.Server;
-import com.example.mym.server.UserController;
-import com.example.mym.session.SectionsPagerAdapter;
+import com.example.mym.server.controller.UserController;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -110,7 +108,7 @@ public class UserRCAdapter extends RecyclerView.Adapter<UserRCAdapter.ViewHolder
             HashMap<String,String> bodyRequest = new HashMap<String, String>();
             bodyRequest.put("userId",user.getUserId());
             bodyRequest.put("friendId",usersList.get(getAdapterPosition()).getUserId());
-            server = new Server(context, Constants.CHANGE_FRIEND_RELATION,"POST",bodyRequest);
+            server = new Server(context, URLs.CHANGE_FRIEND_RELATION,"POST",bodyRequest);
             return server;
         }
 

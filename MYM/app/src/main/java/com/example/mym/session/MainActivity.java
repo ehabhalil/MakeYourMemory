@@ -14,7 +14,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.mym.R;
 import com.example.mym.authentication.LoginActivity;
 import com.example.mym.databinding.ActivityMainBinding;
-import com.example.mym.model.user.User;
+import com.example.mym.server.model.user.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.squareup.picasso.Picasso;

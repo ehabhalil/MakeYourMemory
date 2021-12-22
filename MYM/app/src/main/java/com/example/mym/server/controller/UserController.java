@@ -1,15 +1,12 @@
-package com.example.mym.server;
+package com.example.mym.server.controller;
 
-import com.example.mym.model.post.Like;
-import com.example.mym.model.post.Post;
-import com.example.mym.model.user.User;
+import com.example.mym.server.model.user.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class UserController {
     // TODO: 12/14/2021 get all user

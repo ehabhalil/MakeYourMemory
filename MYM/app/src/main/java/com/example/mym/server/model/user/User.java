@@ -1,4 +1,4 @@
-package com.example.mym.model.user;
+package com.example.mym.server.model.user;
 
 import java.io.Serializable;
 import java.util.ArrayList;

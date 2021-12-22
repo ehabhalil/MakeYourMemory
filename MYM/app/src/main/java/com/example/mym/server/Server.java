@@ -6,9 +6,6 @@ import androidx.annotation.Nullable;
 import androidx.loader.content.AsyncTaskLoader;
 
 
-import com.example.mym.model.user.User;
-
-
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;

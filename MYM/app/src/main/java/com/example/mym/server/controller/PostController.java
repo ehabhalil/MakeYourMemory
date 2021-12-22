@@ -1,9 +1,9 @@
-package com.example.mym.server;
+package com.example.mym.server.controller;
 
-import com.example.mym.model.post.Comment;
-import com.example.mym.model.post.Like;
-import com.example.mym.model.post.Post;
-import com.example.mym.model.user.User;
+import com.example.mym.server.model.post.Comment;
+import com.example.mym.server.model.post.Like;
+import com.example.mym.server.model.post.Post;
+import com.example.mym.server.model.user.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;

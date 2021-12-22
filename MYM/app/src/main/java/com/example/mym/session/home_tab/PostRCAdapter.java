@@ -3,7 +3,6 @@ package com.example.mym.session.home_tab;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +18,9 @@ import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mym.R;
-import com.example.mym.model.post.Post;
-import com.example.mym.model.user.User;
-import com.example.mym.server.Constants;
-import com.example.mym.server.PostController;
+import com.example.mym.server.model.post.Post;
+import com.example.mym.server.model.user.User;
+import com.example.mym.server.URLs;
 import com.example.mym.server.Server;
 import com.example.mym.session.home_tab.post_comments.CommentActivity;
 import com.squareup.picasso.Picasso;
@@ -96,6 +94,7 @@ public class PostRCAdapter extends RecyclerView.Adapter<PostRCAdapter.ViewHolder
                 public void onClick(View v) {
                     Intent intent = new Intent(fragment.requireActivity(), CommentActivity.class);
                     intent.putExtra("post", postsList.get(getAdapterPosition()));
+                    intent.putExtra("user",user);
                     fragment.getActivity().startActivity(intent);
                 }
             });
@@ -130,7 +129,7 @@ public class PostRCAdapter extends RecyclerView.Adapter<PostRCAdapter.ViewHolder
             bodyRequest.put("userId",user.getUserId());
             bodyRequest.put("postId",postsList.get(this.getAdapterPosition()).getID());
             //System.out.println(bodyRequest.get("userId"));
-            server = new Server(context, Constants.VALIDATE_LIKE_WITH_USER,"POST",bodyRequest);
+            server = new Server(context, URLs.VALIDATE_LIKE_WITH_USER,"POST",bodyRequest);
             return server;
         }
 

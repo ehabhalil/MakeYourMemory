@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,18 +20,13 @@ import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
 
 import com.example.mym.R;
-import com.example.mym.model.user.User;
-import com.example.mym.server.Constants;
+import com.example.mym.server.model.user.User;
+import com.example.mym.server.URLs;
 import com.example.mym.server.Server;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Exclude;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -40,9 +34,7 @@ import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class CreateNewPost extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String>{
 
@@ -185,7 +177,7 @@ public class CreateNewPost extends AppCompatActivity implements LoaderManager.Lo
         bodyRequest.put("id", user.getUserId());
         bodyRequest.put("text", description);
         bodyRequest.put("imageURL", imageUrl);
-        Server server = new Server(this, Constants.CREATE_NEW_POST, "POST",bodyRequest);
+        Server server = new Server(this, URLs.CREATE_NEW_POST, "POST",bodyRequest);
         return server;
     }
 
